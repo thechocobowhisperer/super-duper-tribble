@@ -5,7 +5,7 @@ import Task from './components/Card/Card';
 
 class App extends Component{
   state ={
-    taskArray: []
+    taskArray: [{title: 'Finish the task'},{title: 'Get er done'}]
   }
 
   changeName = (event)  => {
@@ -15,37 +15,51 @@ class App extends Component{
   }
 
   createCard(event){
+    event.preventDefault();
     const task = this.state.taskArray;
     const title = this.state.title;
-    task.concat({title})
-    console.log(task)
+    task.push({title})
+    console.log(title)
     this.setState({taskArray : task})
   }
 
   removeTask = (event) => {
     const list = this.state.taskArray
-    console.log(list)
+    // const removed = list.filter(function(key) {
+    //   return list !== key
+    // });
+    
+    console.log(Object.keys(list))
 }
 
   render() {
       return(
         <div className='container'>
-          <form className='d-inline'>
+          <form>
             <Input onChange={(event) => this.changeName(event)} name='Name of Input' 
               placeholder='Card Title'
               />
-            <Button
+            <Button type='submit'
               color="primary" 
               onClick={this.createCard.bind(this)}
               >
               Submit
             </Button>
           </form>
+          <div className='row'>
           {this.state.taskArray.map((task, index) => {
-            return (<div className="container" key={index}><Task title={task.title} 
-            button={<Button className='col-3' onClick={(event) => this.removeTask(event)}>Remove Task</Button>}></Task></div>
+            return (<div className="d-inline" key={index}>
+            <Task key={index} title={task.title} 
+              button={<Button key={index}
+                              type='button'
+                              color='danger' 
+                              className='col-3' 
+                              onClick={(event) => this.removeTask(event)}>x
+                      </Button>}>
+            </Task>
+            </div>
           )})}
-
+          </div>
         </div>
          
       );

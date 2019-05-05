@@ -11,7 +11,7 @@ const Task = (props) => {
       <Card>
         
         <CardBody>
-          <CardTitle className='d-inline'><h3>{props.title}</h3>{props.button}</CardTitle>
+          <CardTitle><h3>{props.title}</h3>{props.button}</CardTitle>
           <CardSubtitle></CardSubtitle>
           <CardText><Input>{props.children}</Input></CardText> 
         </CardBody>
