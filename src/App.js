@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import {Button, Input} from 'reactstrap';
+import Task from './components/Card/Card';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component{
+  state ={
+    taskArray: []
+  }
+
+  changeName = (event)  => {
+    console.log(event.target.value)
+    const newName = event.target.value
+    this.setState({title : newName})
+  }
+
+  createCard(event){
+    const task = this.state.taskArray;
+    const title = this.state.title;
+    task.concat({title})
+    console.log(task)
+    this.setState({taskArray : task})
+  }
+
+  removeTask = (event) => {
+    const list = this.state.taskArray
+    console.log(list)
+}
+
+  render() {
+      return(
+        <div className='container'>
+          <form className='d-inline'>
+            <Input onChange={(event) => this.changeName(event)} name='Name of Input' 
+              placeholder='Card Title'
+              />
+            <Button
+              color="primary" 
+              onClick={this.createCard.bind(this)}
+              >
+              Submit
+            </Button>
+          </form>
+          {this.state.taskArray.map((task, index) => {
+            return (<div className="container" key={index}><Task title={task.title} 
+            button={<Button className='col-3' onClick={(event) => this.removeTask(event)}>Remove Task</Button>}></Task></div>
+          )})}
+
+        </div>
+         
+      );
+  };
 }
 
 export default App;
