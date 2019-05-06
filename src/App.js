@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import {Button, Input} from 'reactstrap';
 import Task from './components/Card/Card';
+import { KeyObject } from 'crypto';
 
 class App extends Component{
   state ={
@@ -14,8 +15,7 @@ class App extends Component{
     this.setState({title : newName})
   }
 
-  createCard(event){
-    event.preventDefault();
+  createCard = (event) => {
     const task = this.state.taskArray;
     const title = this.state.title;
     task.push({title})
@@ -25,40 +25,43 @@ class App extends Component{
 
   removeTask = (event) => {
     const list = this.state.taskArray
-    // const removed = list.filter(function(key) {
-    //   return list !== key
-    // });
+    const selected = event.target.id
+    function notSelected(task){
+      list.map((task, index) => {return list[selected] !== task})
+    }
+    const fixed = list.filter(notSelected)
+
+    console.log(fixed)
+    this.setState({taskArray : fixed})
     
-    console.log(Object.keys(list))
 }
 
   render() {
+    const tasks = this.state.taskArray.map((task, index) => {
+      return (<div key={index}>
+      <Task key={index} title={task.title} 
+        button={<span id={index}
+                        type='button'
+                        className='float-right col-1' 
+                        onClick={(event) => this.removeTask(event)}>x
+                </span>}>
+      </Task>
+      </div>
+    )})
       return(
-        <div className='container'>
-          <form>
+        <div className='form-group'>
+          <div className='form-group'>
             <Input onChange={(event) => this.changeName(event)} name='Name of Input' 
               placeholder='Card Title'
               />
-            <Button type='submit'
-              color="primary" 
-              onClick={this.createCard.bind(this)}
+            <Button
+              onClick={() => this.createCard()}
               >
               Submit
             </Button>
-          </form>
+          </div>
           <div className='row'>
-          {this.state.taskArray.map((task, index) => {
-            return (<div className="d-inline" key={index}>
-            <Task key={index} title={task.title} 
-              button={<Button key={index}
-                              type='button'
-                              color='danger' 
-                              className='col-3' 
-                              onClick={(event) => this.removeTask(event)}>x
-                      </Button>}>
-            </Task>
-            </div>
-          )})}
+          {tasks}
           </div>
         </div>
          
