@@ -2,11 +2,18 @@ import React, {Component} from 'react';
 import './App.css';
 import {Button, Input} from 'reactstrap';
 import Task from './components/Card/Card';
-import { KeyObject } from 'crypto';
 
 class App extends Component{
   state ={
-    taskArray: [{title: 'Finish the task'},{title: 'Get er done'}]
+    taskArray: [
+                {title: 'Finish the task'},
+                {title: 'Get er done'},
+                {title: 'Doing the things'},
+                {title: 'You can do it'},
+                {title: 'Well on your way'},
+                {title: 'Finish the task'},
+                {title: 'Finish the task'},
+              ]
   }
 
   changeName = (event)  => {
@@ -25,13 +32,11 @@ class App extends Component{
 
   removeTask = (event) => {
     const list = this.state.taskArray
+    //Grabs id of span which is = to index of item in taskArray
     const selected = event.target.id
-    function notSelected(task){
-      list.map((task, index) => {return list[selected] !== task})
-    }
-    const fixed = list.filter(notSelected)
-
-    console.log(fixed)
+    let fixed = list.filter((task) => task !== list[selected])
+    // list.filter((fixed) => list[fixed])
+    console.log(list.filter((task) => task !== list[selected]))
     this.setState({taskArray : fixed})
     
 }
@@ -49,12 +54,13 @@ class App extends Component{
       </div>
     )})
       return(
-        <div className='form-group'>
-          <div className='form-group'>
-            <Input onChange={(event) => this.changeName(event)} name='Name of Input' 
+        <div className='container'>
+          <div className='row col-11'>
+            <Input className='col' onChange={(event) => this.changeName(event)} name='Name of Input' 
               placeholder='Card Title'
               />
             <Button
+              className='col-3'
               onClick={() => this.createCard()}
               >
               Submit

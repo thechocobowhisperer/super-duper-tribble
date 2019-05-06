@@ -1,13 +1,13 @@
 import React from 'react';
 import { Card, CardText, CardBody,
-  CardTitle, CardSubtitle, Button, Input } from 'reactstrap';
+  CardTitle, CardSubtitle, Input } from 'reactstrap';
 
 
 
 const Task = (props) => {
 
   return (
-    <div>
+    <div className='col'>
       <Card>
         
         <CardBody>
